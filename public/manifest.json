@@ -1,0 +1,21 @@
+{
+  "name": "Recipe Book",
+  "short_name": "Recipe",
+  "start_url": "/recipe-book/",
+  "scope": "/recipe-book/",
+  "display": "standalone",
+  "background_color": "#fafafa",
+  "theme_color": "#4f6ef7",
+  "icons": [
+    {
+      "src": "/recipe-book/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/recipe-book/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
