@@ -39,6 +39,19 @@ function jsonResponse(body: unknown, status = 200): Response {
   });
 }
 
+function corsResponse(body: BodyInit | null, status: number, headers?: HeadersInit) {
+  return new Response(body, {
+    status,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
+      "Access-Control-Max-Age": "86400",
+      ...headers,
+    },
+  });
+}
+
 function recipeFromPage(page: NotionPage) {
   const props = page.properties;
   return {
@@ -78,14 +91,15 @@ async function notionRequest(
 export default {
   async fetch(request, env): Promise<Response> {
     if (request.method === "OPTIONS") {
-      return jsonResponse({}, 204);
+      // Preflight must succeed without depending on secrets or upstream APIs.
+      return corsResponse(null, 204);
     }
+
+    const { pathname } = new URL(request.url);
 
     if (!env.NOTION_TOKEN || !env.NOTION_DATABASE_ID) {
       return jsonResponse({ error: "Missing env vars for Notion" }, 500);
     }
-
-    const { pathname } = new URL(request.url);
 
     if (pathname === "/recipes" && request.method === "GET") {
       const response = await notionRequest(env, `/databases/${env.NOTION_DATABASE_ID}/query`, {
