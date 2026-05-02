@@ -1,4 +1,4 @@
-const CACHE_NAME = "recipe-book-v1";
+const CACHE_NAME = "recipe-book-v2";
 const APP_SHELL = ["/recipe-book/", "/recipe-book/manifest.json"];
 
 self.addEventListener("install", (event) => {
